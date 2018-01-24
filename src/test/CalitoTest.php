@@ -23,6 +23,11 @@ class CalitoTest extends TestCase
         $priceCalculator = new PriceCalculator();
         $priceCalculator->processElements('apple,cherry,banana');
         $this->assertEquals(325, $priceCalculator->getTotal());
+    }
+
+    /** @test */
+    public function sum_calito_elements_separated_by_comma_with_discount()
+    {
         $priceCalculator = new PriceCalculator();
         $priceCalculator->processElements('cherry,cherry');
         $this->assertEquals(130, $priceCalculator->getTotal());
