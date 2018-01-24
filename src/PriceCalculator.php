@@ -4,9 +4,22 @@ namespace Mapashe;
 
 final class PriceCalculator
 {
+    const CHERRY_ELEM = [
+        'name' => 'cherry',
+        'price' => 75,
+        'discount' => 20
+    ];
+    const APPLE_ELEM = [
+        'name' => 'apple',
+        'price' => 100
+    ];
 
-    const CHERRY_DISCOUNT = 20;
-    const BANANA_DISCOUNT = 150;
+    const BANANA_ELEM = [
+        'name' => 'banana',
+        'price' => 150,
+        'discount' => 150
+    ];
+
     const APFEL_DISCOUNT = 50;
     const MANZANA_DISCOUNT = 100;
 
@@ -57,8 +70,8 @@ final class PriceCalculator
 
     private function applyDiscounts(): void
     {
-        $this->applyDiscount('cherry', self::CHERRY_DISCOUNT, 2);
-        $this->applyDiscount('banana', self::BANANA_DISCOUNT, 2);
+        $this->applyDiscount(self::CHERRY_ELEM['name'], self::CHERRY_ELEM['discount'], 2);
+        $this->applyDiscount(self::BANANA_ELEM['name'], self::BANANA_ELEM['discount'], 2);
         $this->applyDiscount('manzana', self::MANZANA_DISCOUNT, 3);
         $this->applyDiscount('apfel', self::APFEL_DISCOUNT, 2);
     }
@@ -85,14 +98,14 @@ final class PriceCalculator
     private function getElemPrice(string $elem): int
     {
         switch(trim($elem)) {
-            case 'banana':
-                $fruitPrice = 150;
+            case self::BANANA_ELEM['name']:
+                $fruitPrice = self::BANANA_ELEM['price'];
                 break;
-            case 'apple':
-                $fruitPrice = 100;
+            case self::APPLE_ELEM['name']:
+                $fruitPrice = self::APPLE_ELEM['price'];
                 break;
-            case 'cherry':
-                $fruitPrice = 75;
+            case self::CHERRY_ELEM['name']:
+                $fruitPrice = self::CHERRY_ELEM['price'];
                 break;
             default:
                 $fruitPrice = 0;
