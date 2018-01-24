@@ -26,7 +26,7 @@ class ProcessCommand extends Command
 
             $e = $helper->ask($input, $output, $question);
 
-            $this->priceCalculator->sumElement($e);
+            $this->priceCalculator->processElements($e);
 
             $output->writeln("\t" . $this->priceCalculator->getTotal());
 

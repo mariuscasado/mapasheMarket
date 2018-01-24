@@ -8,13 +8,23 @@ use PHPUnit\Framework\TestCase;
 class CalitoTest extends TestCase
 {
     /** @test */
-    public function sum_calito_elements() {
+    public function sum_calito_elements_with_discount() {
         $priceCalculator = new PriceCalculator();
-        $priceCalculator->sumElement('apple');
+        $priceCalculator->processElements('apple');
         $this->assertEquals(100, $priceCalculator->getTotal());
-        $priceCalculator->sumElement('cherry');
+        $priceCalculator->processElements('cherry');
         $this->assertEquals(175, $priceCalculator->getTotal());
-        $priceCalculator->sumElement('cherry');
-        $this->assertEquals(250, $priceCalculator->getTotal());
+        $priceCalculator->processElements('cherry');
+        $this->assertEquals(230, $priceCalculator->getTotal());
+    }
+
+    /** @test */
+    public function sum_calito_elements_separated_by_comma() {
+        $priceCalculator = new PriceCalculator();
+        $priceCalculator->processElements('apple,cherry,banana');
+        $this->assertEquals(325, $priceCalculator->getTotal());
+        $priceCalculator = new PriceCalculator();
+        $priceCalculator->processElements('cherry,cherry');
+        $this->assertEquals(130, $priceCalculator->getTotal());
     }
 }
