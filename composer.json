@@ -1,0 +1,16 @@
+{
+    "name": "raul/mapashe",
+    "require": {
+        "phpunit/phpunit": "^6.5",
+        "symfony/console": "^4.0"
+    },
+    "authors": [
+        {
+            "name": "Inspired by Raúl Ferràs",
+            "email": "marius@viscaweb.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Mapashe\\": "src/"}
+    }
+}
