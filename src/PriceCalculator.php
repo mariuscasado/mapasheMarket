@@ -9,6 +9,7 @@ final class PriceCalculator
         'price' => 75,
         'discount' => 20
     ];
+
     const APPLE_ELEM = [
         'name' => 'apple',
         'price' => 100,
@@ -21,8 +22,17 @@ final class PriceCalculator
         'discount' => 150
     ];
 
-    const APFEL_DISCOUNT = 150;
-    const MANZANA_DISCOUNT = 100;
+    const APFLE_ELEM = [
+        'name' => 'apfel',
+        'price' => 100,
+        'discount' => 150
+    ];
+
+    const MANZANA_ELEM = [
+        'name' => 'manzana',
+        'price' => 100,
+        'discount' => 100
+    ];
 
     /** @var int */
     private $total;
@@ -84,8 +94,8 @@ final class PriceCalculator
         $this->applyDiscount(self::CHERRY_ELEM['name'], self::CHERRY_ELEM['discount'], 2, false);
         $this->applyDiscount(self::BANANA_ELEM['name'], self::BANANA_ELEM['discount'], 2, false);
         $this->applyDiscount(self::APPLE_ELEM['name'], self::APPLE_ELEM['discount'], 4, false);
-        $this->applyDiscount('manzana', self::MANZANA_DISCOUNT, 3, false);
-        $this->applyDiscount('apfel', self::APFEL_DISCOUNT, 2, false);
+        $this->applyDiscount(self::MANZANA_ELEM['name'], self::MANZANA_ELEM['discount'], 3, false);
+        $this->applyDiscount(self::APFLE_ELEM['name'], self::APFLE_ELEM['discount'], 2, false);
         $this->applyDiscount('', 200, 5, false);
     }
 

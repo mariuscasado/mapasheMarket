@@ -6,9 +6,10 @@ final class Translation
 {
     public function translate(string $word): string
     {
-        if (in_array($word, ['manzana','apfel'])) {
+        $appleNames = [PriceCalculator::APFLE_ELEM['name'], PriceCalculator::MANZANA_ELEM['name']];
+        if (in_array($word, $appleNames)) {
 
-            return 'apple';
+            return PriceCalculator::APPLE_ELEM['name'];
         }
 
         return $word;
