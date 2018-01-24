@@ -11,7 +11,8 @@ final class PriceCalculator
     ];
     const APPLE_ELEM = [
         'name' => 'apple',
-        'price' => 100
+        'price' => 100,
+        'discount' => 100
     ];
 
     const BANANA_ELEM = [
@@ -20,11 +21,14 @@ final class PriceCalculator
         'discount' => 150
     ];
 
-    const APFEL_DISCOUNT = 50;
+    const APFEL_DISCOUNT = 150;
     const MANZANA_DISCOUNT = 100;
 
     /** @var int */
     private $total;
+
+    /** @var int */
+    private $discount;
 
     /** @var array */
     private $productHistory;
@@ -35,6 +39,7 @@ final class PriceCalculator
     public function __construct()
     {
         $this->total = 0;
+        $this->discount = 0;
         $this->productHistory = [];
         $this->translator = new Translation();
     }
@@ -42,7 +47,7 @@ final class PriceCalculator
     public function getTotal(): int
     {
         $this->applyDiscounts();
-        return $this->total;
+        return $this->total + $this->discount;
     }
 
     public function processElements(string $elements)
@@ -55,9 +60,15 @@ final class PriceCalculator
         } else {
             $this->sumElement($elements);
         }
+        $this->resetDiscounts();
     }
 
-    public function sumElement(string $elem)
+    private function resetDiscounts()
+    {
+        $this->discount = 0;
+    }
+
+    private function sumElement(string $elem)
     {
         $tElem = $this->translator->translate($elem);
 
@@ -70,29 +81,40 @@ final class PriceCalculator
 
     private function applyDiscounts(): void
     {
-        $this->applyDiscount(self::CHERRY_ELEM['name'], self::CHERRY_ELEM['discount'], 2);
-        $this->applyDiscount(self::BANANA_ELEM['name'], self::BANANA_ELEM['discount'], 2);
-        $this->applyDiscount('manzana', self::MANZANA_DISCOUNT, 3);
-        $this->applyDiscount('apfel', self::APFEL_DISCOUNT, 2);
+        $this->applyDiscount(self::CHERRY_ELEM['name'], self::CHERRY_ELEM['discount'], 2, false);
+        $this->applyDiscount(self::BANANA_ELEM['name'], self::BANANA_ELEM['discount'], 2, false);
+        $this->applyDiscount(self::APPLE_ELEM['name'], self::APPLE_ELEM['discount'], 4, false);
+        $this->applyDiscount('manzana', self::MANZANA_DISCOUNT, 3, false);
+        $this->applyDiscount('apfel', self::APFEL_DISCOUNT, 2, false);
+        $this->applyDiscount('', 200, 5, false);
     }
 
-    private function applyDiscount(string $element, int $discount, $everyWhen)
+    private function applyDiscount(string $element, int $discount, int $everyWhen, bool $oneTimeDiscount)
     {
-        $numberOfElems = count(array_filter($this->productHistory, function($f) use ($element) {
-            return $f === $element;
-        }));
+        if ($element === '') {
+            $numberOfElems = count($this->productHistory);
+        } else {
+            $numberOfElems = count(
+                array_filter(
+                    $this->productHistory,
+                    function ($f) use ($element) {
+                        return $f === $element;
+                    }
+                )
+            );
+        }
 
         if ($numberOfElems < $everyWhen) {
             return;
         }
 
         if ($numberOfElems % $everyWhen) {
-            $finalDiscount = $discount * (($numberOfElems-1)/$everyWhen);
+            $finalDiscount = $discount * (($numberOfElems - 1) / $everyWhen);
         } else {
             $finalDiscount = $discount * ($numberOfElems/$everyWhen);
         }
 
-        $this->total = $this->total - $finalDiscount;
+        $this->discount = $this->discount - $finalDiscount;
     }
 
     private function getElemPrice(string $elem): int

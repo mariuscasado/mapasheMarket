@@ -70,6 +70,18 @@ class CalitoTest extends TestCase
     {
         $priceCalculator = new PriceCalculator();
         $priceCalculator->processElements('apfel,apfel');
-        $this->assertEquals(150, $priceCalculator->getTotal());
+        $this->assertEquals(50, $priceCalculator->getTotal());
+    }
+
+    /** @test */
+    public function sum_calito_elements_with_translation_discounts_and_global_discount()
+    {
+        $priceCalculator = new PriceCalculator();
+        $priceCalculator->processElements('apfel,manzana,manzana,apfel');
+        $this->assertEquals(250, $priceCalculator->getTotal());
+        $priceCalculator->processElements('banana');
+        $this->assertEquals(200, $priceCalculator->getTotal());
+        $priceCalculator->processElements('apfel,manzana,manzana,apple,apfel');
+        $this->assertEquals(250, $priceCalculator->getTotal());
     }
 }
