@@ -1,5 +1,5 @@
 {
-    "name": "raul/mapashe",
+    "name": "marius/mapashe",
     "require": {
         "phpunit/phpunit": "^6.5",
         "symfony/console": "^4.0"
